@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
 
 // Router modules import
 const userRoute = require("./routes/user.route")
+const chatRoute = require("./routes/chat.route")
+const messageRoutes = require("./routes/message.route")
 
 // Using router imported modules
 app.use('/api/users', userRoute)
+app.use('/api/chats', chatRoute)
+app.use("/api/messages", messageRoutes)

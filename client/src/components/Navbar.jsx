@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Button, Container, Nav, Navbar, Stack } from 'react-bootstrap'
-import { json, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../Context/Context'
 
 function NavBar() {
@@ -17,7 +17,7 @@ function NavBar() {
               Chat App
             </Link>
           </h2>
-          {user && <span className="text-warning">Logged in as {user?.name}</span>}
+          {user && <span className="text-warning">Logged in as <b style={{ textTransform: 'capitalize' }}>{user?.name}</b></span>}
           <Nav>
             <Stack direction='horizontal' gap={3}>
               {!user ?
