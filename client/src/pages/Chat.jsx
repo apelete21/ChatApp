@@ -4,6 +4,7 @@ import { Container, Stack } from 'react-bootstrap'
 import UserChat from '../components/chat/UserChat'
 import { ChatContext } from '../Context/ChatContext'
 import { AuthContext } from '../Context/AuthContext'
+import PotentialChats from '../components/chat/PotentialChats'
 
 function Chat() {
   const { user } = useContext(AuthContext)
@@ -11,7 +12,8 @@ function Chat() {
 
   return (
     <Container>
-      {userChats?.length < 1 ? null : 
+      <PotentialChats />
+      {userChats?.length < 1 ? null :
         <Stack direction='horizontal' gap={4} className='align-items-start'>
           <Stack className='flex-grow-0'>
             <Stack className='messages-box flex-grow-0 pe-3'>
