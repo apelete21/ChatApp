@@ -5,10 +5,11 @@ import UserChat from '../components/chat/UserChat'
 import { ChatContext } from '../Context/ChatContext'
 import { AuthContext } from '../Context/AuthContext'
 import PotentialChats from '../components/chat/PotentialChats'
+import ChatBox from '../components/chat/ChatBox'
 
 function Chat() {
   const { user } = useContext(AuthContext)
-  const { userChats, isUserChatsLoading, userChatsError } = useContext(ChatContext)
+  const { userChats, isUserChatsLoading, updateCurrentChat } = useContext(ChatContext)
 
   return (
     <Container>
@@ -20,14 +21,14 @@ function Chat() {
               {isUserChatsLoading && <p>Loading Chats</p>}
               {userChats?.map((chat, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} onClick={() => updateCurrentChat(chat)}>
                     <UserChat chat={chat} user={user} />
                   </div>
                 )
               })}
             </Stack>
           </Stack>
-          <p>Chatbox</p>
+          <ChatBox />
         </Stack>
       }
     </Container>

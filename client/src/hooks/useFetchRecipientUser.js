@@ -19,7 +19,7 @@ export const useFetchRecipientUser = (chat, user) => {
             setRecipientUser(response)
         }
         getUsers()
-    }, [])
+    }, [recipientId])
 
     return { recipientUser }
 }
