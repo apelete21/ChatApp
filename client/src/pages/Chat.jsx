@@ -1,10 +1,16 @@
 import React from 'react'
+import { useContext } from 'react'
+import { ChatContext } from '../Context/ChatContext'
 
 function Chat() {
+  const { userChats, isUserChatsLoading, userChatsError } = useContext(ChatContext)
+
+  console.log(userChats)
+
   return (
-    <div>
-      Chat App
-    </div>
+    <>
+      Fucked Up Chat App
+    </>
   )
 }
 

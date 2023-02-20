@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { baseUrl, postRequest } from '../utils/services'
 
 export const AuthContext = createContext()
@@ -79,7 +79,7 @@ export const AuthContextProvider = ({ children }) => {
             user,
             LogOut,
             registerInfo,
-            loginInfo,
+            loginInfo, 
             registerUser,
             loginUser,
             registerError,

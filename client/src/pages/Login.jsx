@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Alert, Button, Form, Row, Col, Stack } from 'react-bootstrap'
-import { AuthContext } from '../Context/Context'
+import { AuthContext } from '../Context/AuthContext'
 
 function Login() {
 
