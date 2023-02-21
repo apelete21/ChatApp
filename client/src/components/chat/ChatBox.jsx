@@ -15,7 +15,6 @@ function ChatBox() {
 
     const { recipientUser } = useFetchRecipientUser(currentChat, user)
 
-    console.log("messages", messages)
     if (!recipientUser) {
         return (
             <b style={{ textAlign: "center", width: '100%' }}>No conversations selected yet...</b>

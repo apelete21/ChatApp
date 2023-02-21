@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { baseUrl, getRequest, postRequest } from '../utils/services'
+import { io } from "socket.io-client"
 
 export const ChatContext = createContext()
 
@@ -19,6 +20,58 @@ export const ChatContextProvider = ({ children, user }) => {
     const [potentialChats, setPotentialChats] = useState([])
 
     const [currentChat, setCurrentChat] = useState(null)
+
+    const [socket, setSocket] = useState(null)
+    const [onlineUsers, setOnlineUsers] = useState([])
+
+    // console.log(onlineUsers)
+
+    useEffect(() => {
+        const newSocket = io("http://localhost:3000")
+        setSocket(newSocket)
+
+        return () => {
+            newSocket.disconnect()
+        }
+    }, [user])
+
+    // add online users
+    useEffect(() => {
+        if (socket === null) return
+        socket.emit("addNewUser", user?._id)
+        socket.on("getOnlineUsers", (response) => {
+            setOnlineUsers(response)
+        })
+
+        return () => {
+            socket.off("getOnlineUsers")
+        }
+    }, [socket])
+
+    // send message
+    useEffect(() => {
+        if (socket === null) return;
+
+        const recipientId = currentChat?.members?.find((id) => id !== user?._id)
+
+        socket.emit("sendMessage", { ...newMessage, recipientId })
+
+    }, [newMessage])
+
+    // receive message
+    useEffect(() => {
+        if (socket === null) return;
+
+        socket.on("getMessage", (response) => {
+
+            if (currentChat?._id !== response.chatId) { return };
+
+            setMessages((prev) => [...prev, response])
+        })
+        return () => {
+            socket.off("getMessage")
+        }
+    }, [socket, currentChat])
 
     useEffect(() => {
         const getUsers = async () => {
@@ -73,7 +126,7 @@ export const ChatContextProvider = ({ children, user }) => {
             setIsMessagesLoading(true)
             setMessagesError(null)
 
-            const response = await getRequest(`${baseUrl}/messages/${currentChat._id}`)
+            const response = await getRequest(`${baseUrl}/messages/${currentChat?._id}`)
 
             setIsMessagesLoading(false)
 
@@ -132,7 +185,8 @@ export const ChatContextProvider = ({ children, user }) => {
             isMessagesLoading,
             messagesError,
             currentChat,
-            sendTextMessage
+            sendTextMessage,
+            onlineUsers
         }}>
             {children}
         </ChatContext.Provider>
