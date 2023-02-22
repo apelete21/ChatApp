@@ -46,7 +46,7 @@ export const ChatContextProvider = ({ children, user }) => {
         return () => {
             socket.off("getOnlineUsers")
         }
-    }, [socket])
+    }, [socket, userChats])
 
     // send message
     useEffect(() => {

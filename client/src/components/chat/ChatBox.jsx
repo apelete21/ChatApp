@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Stack } from 'react-bootstrap'
 import { AuthContext } from '../../Context/AuthContext'
 import { ChatContext } from '../../Context/ChatContext'
@@ -13,7 +13,17 @@ function ChatBox() {
 
     const [textMessage, setTextMessage] = useState("")
 
+    const scroll = useRef()
+
     const { recipientUser } = useFetchRecipientUser(currentChat, user)
+
+    useEffect(() => {
+        scroll.current?.scrollIntoView({ behavior: "smooth" })
+    }, [messages])
+
+    if(!user) {
+        return <p style={{ textAlign: "center", width: '100%' }}>Loading user...</p>
+    }
 
     if (!recipientUser) {
         return (
@@ -35,7 +45,7 @@ function ChatBox() {
             <Stack gap={3} className='messages'>
                 {messages && messages.map((message, index) => {
                     return (
-                        <Stack key={index} className={message?.senderId === user?._id ? 'message self align-self-end flex-grow-0' : 'message align-self-start flex-grow-0'}>
+                        <Stack key={index} className={message?.senderId === user?._id ? 'message self align-self-end flex-grow-0' : 'message align-self-start flex-grow-0'} ref={scroll}>
                             <span> {message.text} </span>
                             <span className='message-footer'> {moment(message?.createdAt).calendar()} </span>
                         </Stack>
